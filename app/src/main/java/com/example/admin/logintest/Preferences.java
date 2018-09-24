@@ -14,6 +14,7 @@ public class Preferences {
     public static final String USER_GENDER = "gender";
     public static final String USER_EMAIL = "email";
     public static final String PROFILE_PICTURE = "profile_picture";
+    public static final String USER_ID = "user_id";
 
     public static String getFacebookAccessToken(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("user_info", Context.MODE_PRIVATE);
@@ -24,6 +25,18 @@ public class Preferences {
         SharedPreferences sharedPreferences = context.getSharedPreferences("user_info", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(FACEBOOK_ACCESS_TOKEN, accessToken);
+        editor.commit();
+    }
+
+    public static String getFacebookID(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("user_info", Context.MODE_PRIVATE);
+        return sharedPreferences.getString(USER_ID, null);
+    }
+
+    public static void setFacebookID(Context context, String facebookID) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("user_info", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(USER_ID, facebookID);
         editor.commit();
     }
 

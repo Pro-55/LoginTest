@@ -1,8 +1,9 @@
 package com.example.admin.logintest;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
-import android.preference.PreferenceActivity;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,10 +21,8 @@ import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.squareup.picasso.Picasso;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
@@ -66,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
                 progressDialog.show();
 
                 String accessToken = loginResult.getAccessToken().getToken();
+                Preferences.setFacebookAccessToken(getApplicationContext(), accessToken);
                 GraphRequest graphRequest = GraphRequest.newMeRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
                     @Override
                     public void onCompleted(JSONObject object, GraphResponse response) {
@@ -93,13 +93,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         if (Preferences.getFacebookAccessToken(getApplicationContext()) != null) {
-            userFirstName.setText(Preferences.getUserFirstName(getApplicationContext()));
-            userLastName.setText(Preferences.getUserLastName(getApplicationContext()));
-            gender.setText(Preferences.getUserGender(getApplicationContext()));
-            birthDay.setText(Preferences.getUserBirthDate(getApplicationContext()));
-            eMail.setText(Preferences.getUserEmail(getApplicationContext()));
-            userID.setText(AccessToken.getCurrentAccessToken().getUserId());
-            Picasso.with(this).load(Preferences.getProfilePicture(getApplicationContext())).into(profilePicture);
+            displayUserInfo();
         }
 
     }
@@ -112,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, ": LogTag: RequestCode: " + requestCode);
         Log.d(TAG, ": LogTag: ResultCode: " + resultCode);
         Log.d(TAG, ": LogTag: Data: " + data);
+        displayUserInfo();
     }
 
     public void getData(JSONObject object) {
@@ -123,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
 
             Picasso.with(this).load(imageURL.toString()).into(profilePicture);
 
-            Preferences.setFacebookAccessToken(getApplicationContext(), object.getString("id"));
+            Preferences.setFacebookID(getApplicationContext(), object.getString("id"));
             Preferences.setUserFirstName(getApplicationContext(), object.getString("first_name"));
             Preferences.setUserLastName(getApplicationContext(), object.getString("last_name"));
             Preferences.setUserGender(getApplicationContext(), object.getString("gender"));
@@ -137,4 +132,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void displayUserInfo() {
+        userFirstName.setText(Preferences.getUserFirstName(getApplicationContext()));
+        userLastName.setText(Preferences.getUserLastName(getApplicationContext()));
+        gender.setText(Preferences.getUserGender(getApplicationContext()));
+        birthDay.setText(Preferences.getUserBirthDate(getApplicationContext()));
+        eMail.setText(Preferences.getUserEmail(getApplicationContext()));
+        userID.setText(Preferences.getFacebookID(getApplicationContext()));
+        Picasso.with(this).load(Preferences.getProfilePicture(getApplicationContext())).into(profilePicture);
+    }
 }
