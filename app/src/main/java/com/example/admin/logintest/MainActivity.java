@@ -2,6 +2,7 @@ package com.example.admin.logintest;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.preference.PreferenceActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,10 +32,11 @@ import java.util.Arrays;
 public class MainActivity extends AppCompatActivity {
 
     private CallbackManager callbackManager;
-    private TextView userFirstName, userLastName, gender, birthDay, eMail;
+    private TextView userFirstName, userLastName, gender, birthDay, eMail, userID;
     private ProgressDialog progressDialog;
     private ImageView profilePicture;
     private static final String GRAPH_URL = "https://graph.facebook.com/";
+    private URL imageURL;
     private static final String TAG = "MainActivity";
 
     @Override
@@ -52,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
         gender = findViewById(R.id.gender);
         birthDay = findViewById(R.id.birthDay);
         eMail = findViewById(R.id.eMail);
+        userID = findViewById(R.id.userID);
 
         LoginButton loginButton = findViewById(R.id.facebookLoginButton);
         loginButton.setReadPermissions(Arrays.asList("public_profile", "email", "user_gender", "user_birthday"));
@@ -89,9 +92,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        if (AccessToken.getCurrentAccessToken() != null) {
-            eMail.setText(AccessToken.getCurrentAccessToken().getUserId());
+        if (Preferences.getFacebookAccessToken(getApplicationContext()) != null) {
+            userFirstName.setText(Preferences.getUserFirstName(getApplicationContext()));
+            userLastName.setText(Preferences.getUserLastName(getApplicationContext()));
+            gender.setText(Preferences.getUserGender(getApplicationContext()));
+            birthDay.setText(Preferences.getUserBirthDate(getApplicationContext()));
+            eMail.setText(Preferences.getUserEmail(getApplicationContext()));
+            userID.setText(AccessToken.getCurrentAccessToken().getUserId());
+            Picasso.with(this).load(Preferences.getProfilePicture(getApplicationContext())).into(profilePicture);
         }
+
     }
 
 
@@ -105,16 +115,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void getData(JSONObject object) {
+
         try {
             URL profilePictureUrl = new URL(GRAPH_URL + object.getString("id") + "/picture?width=250&height=250");
+            imageURL = profilePictureUrl;
+            Preferences.setProfilePicture(getApplicationContext(), imageURL.toString());
 
-            Picasso.with(this).load(profilePictureUrl.toString()).into(profilePicture);
+            Picasso.with(this).load(imageURL.toString()).into(profilePicture);
 
-            userFirstName.setText(object.getString("first_name"));
-            userLastName.setText(object.getString("last_name"));
-            gender.setText(object.getString("gender"));
-            birthDay.setText(object.getString("birthday"));
-            eMail.setText(object.getString("email"));
+            Preferences.setFacebookAccessToken(getApplicationContext(), object.getString("id"));
+            Preferences.setUserFirstName(getApplicationContext(), object.getString("first_name"));
+            Preferences.setUserLastName(getApplicationContext(), object.getString("last_name"));
+            Preferences.setUserGender(getApplicationContext(), object.getString("gender"));
+            Preferences.setUserBirthDate(getApplicationContext(), object.getString("birthday"));
+            Preferences.setUserEmail(getApplicationContext(), object.getString("email"));
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -123,5 +137,4 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    
 }
