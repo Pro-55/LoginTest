@@ -64,10 +64,31 @@
     </LinearLayout>
 
     <FrameLayout
+        android:id="@+id/googleFrame"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="8dp">
+        android:layout_above="@id/facebookFrame">
+
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/sign_in_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/buttonLoginGoogle"
+            style="@style/buttonGoogleLoginVisuals"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/login_google_button_text" />
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/facebookFrame"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
 
         <com.facebook.login.widget.LoginButton
             android:id="@+id/facebookLoginButton"
