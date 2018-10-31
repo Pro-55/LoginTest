@@ -13,49 +13,49 @@
         android:layout_margin="8dp"
         android:orientation="vertical">
 
-        <ImageView
+        <android.support.v7.widget.AppCompatImageView
             android:id="@+id/profilePicture"
             android:layout_width="250dp"
             android:layout_height="250dp"
             android:layout_gravity="center_horizontal"
             android:background="#adadad" />
 
-        <TextView
+        <android.support.v7.widget.AppCompatTextView
             android:id="@+id/userFirstName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#000000"
             android:textSize="15sp" />
 
-        <TextView
+        <android.support.v7.widget.AppCompatTextView
             android:id="@+id/userLastName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#000000"
             android:textSize="15sp" />
 
-        <TextView
+        <android.support.v7.widget.AppCompatTextView
             android:id="@+id/gender"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#000000"
             android:textSize="15sp" />
 
-        <TextView
+        <android.support.v7.widget.AppCompatTextView
             android:id="@+id/birthDay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#000000"
             android:textSize="15sp" />
 
-        <TextView
+        <android.support.v7.widget.AppCompatTextView
             android:id="@+id/eMail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#000000"
             android:textSize="15sp" />
 
-        <TextView
+        <android.support.v7.widget.AppCompatTextView
             android:id="@+id/userID"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -75,7 +75,7 @@
             android:layout_height="wrap_content"
             android:visibility="gone" />
 
-        <Button
+        <android.support.v7.widget.AppCompatButton
             android:id="@+id/buttonLoginGoogle"
             style="@style/buttonGoogleLoginVisuals"
             android:layout_width="match_parent"
@@ -96,14 +96,14 @@
             android:layout_height="wrap_content"
             android:visibility="gone" />
 
-        <Button
+        <android.support.v7.widget.AppCompatButton
             android:id="@+id/buttonLoginFB"
             style="@style/buttonFBLoginVisuals"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/login_fb_button_text" />
 
-        <Button
+        <android.support.v7.widget.AppCompatButton
             android:id="@+id/buttonLogOut"
             style="@style/buttonLoginVisuals"
             android:layout_width="match_parent"
